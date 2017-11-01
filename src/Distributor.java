@@ -23,4 +23,22 @@ public class Distributor {
         }
         return matrix;
     }
+
+    public String readTemplate() throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/template"));
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while((line = bufferedReader.readLine()) != null){
+            stringBuilder.append(line);
+        }
+        return stringBuilder.toString();
+
+    }
+
+    public String fillDataInTemplate(String template){
+
+    }
+
+
+
 }

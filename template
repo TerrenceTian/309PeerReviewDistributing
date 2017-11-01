@@ -1,0 +1,15 @@
+Hi #name,
+
+Your review is;
+code:
+#code.rank1, #code.commend1
+#code.rank2, #code.commend2
+#code.rank3, #code.commend3
+
+team:
+#team.rank1, #team.commend1
+#team.rank2, #team.commend2
+#team.rank3, #team.commend3
+
+Best,
+#TA_name
