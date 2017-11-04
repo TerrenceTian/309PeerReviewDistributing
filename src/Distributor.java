@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Distributor {//将所用文件导入二维字符串数组
@@ -23,23 +24,7 @@ public class Distributor {//将所用文件导入二维字符串数组
         return matrix;
     }
 
-    public String[][] readFileToMatrix2(String filePath2) throws IOException {
-        List<String[]> list = new ArrayList<>();
-        BufferedReader bufferedReader2 = new BufferedReader(new FileReader (filePath2));
-        String line2;
-        while((line2 = bufferedReader2.readLine()) != null){
-            String[] elements2 = line2.split(",");
-            list.add(elements2);
-        }
-        int width2 = list.get(0).length;
-        String matrix2[][] = new String[list.size()][width2];
-        for (int i = 0; i < list.size(); i++){
-            for(int j = 0; j < width2; j++){
-                matrix2[i][j] = list.get(i)[j];
-            }
-        }
-        return matrix2;
-    }
+
 
     public String readTemplate() throws IOException {//将模板读入系统缓存
         BufferedReader bufferedReader = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/template"));//从用户的当前工作目录中读取模板文件
@@ -52,49 +37,75 @@ public class Distributor {//将所用文件导入二维字符串数组
 
     }
 
-    public String fillDataInTemplate(String template, String[][] matrix, String[][] matrix2){
-        int i = 0, j;
-        while(i < matrix.length){
-            for(j = 0; j < matrix2.length; j++){
-                if(matrix[i][2].equals(matrix2[j][0])) {
-                    break;
-                }
-            }
-            if (matrix[i][2].equals(matrix[i+1][2]) && matrix[i][2].equals(matrix[i+2][2])) {
-                String template2 = template.replace("#name", matrix2[j][1])
-                        .replace("#code.rank1", matrix[i][4])
-                        .replace("#code.rank2", matrix[i + 1][4])
-                        .replace("#code.rank3", matrix[i + 2][4])
-                        .replace("#code.commend1", matrix[i][5])
-                        .replace("#code.commend2", matrix[i + 1][5])
-                        .replace("#code.commend3", matrix[i + 2][5]);
-                i += 3;
-                continue;
-            }
-            else if(matrix[i][2].equals(matrix[i+2][2])) {
-                String template2 = template.replace("#name", matrix2[j][1])
-                        .replace("#code.rank1", matrix[i][4])
-                        .replace("#code.rank2", matrix[i + 1][4])
-                        .replace("#code.commend1", matrix[i][5])
-                        .replace("#code.commend2", matrix[i + 1][5])
-                        .replace("#code.rank3","")
-                        .replace("#code.commend3","");
-                i += 2;
-            }
-            else{
-                String template2 = template.replace("name", matrix2[j][1])
-                        .replace("#code.rank1", matrix[i][4])
-                        .replace("#code.rank2", "")
-                        .replace("#code.rank3", "")
-                        .replace("#code.commend1", matrix[i][5])
-                        .replace("#code.commend2", "")
-                        .replace("#code.commend3", "");
-                i += 1;
-            }
-
+    public void fillNetID(HashMap<String, EmailContent> emailContentHashMap, String[][] names) {
+        for(int i = 0; i < names.length; i++){
+            EmailContent emailContent = new EmailContent();
+            emailContent.setFirstName(names[i][2]);
+            emailContent.setLastName(names[i][3]);
+            emailContentHashMap.put(names[i][4], emailContent);
         }
-            return null;
     }
+
+    public void fillReview(HashMap<String, EmailContent> emailContentHashMap, String[][] codingReview, String[][] teamwork) {
+        for(int i = 1; i < codingReview.length; i++){
+            String netId = codingReview[i][2];
+            EmailContent emailContent = emailContentHashMap.get(netId);
+            emailContent.getCoding().add(new String[]{codingReview[i][4], codingReview[i][5].replace("Comment only needed if 1,2 or 5", "")});
+        }
+        for(int i = 1; i < teamwork.length; i++){
+            String netId = teamwork[i][2];
+            EmailContent emailContent = emailContentHashMap.get(netId);
+            emailContent.getTeamwork().add(new String[]{teamwork[i][4], teamwork[i][5].replace("Comment only needed if 1,2 or 5", "")});
+        }
+
+    }
+//    public String fillDataInTemplate(){
+//
+//    }
+
+//    public String fillDataInTemplate(String template, String[][] matrix, String[][] matrix2){
+//        int i = 0, j;
+//        while(i < matrix.length){
+//            for(j = 0; j < matrix2.length; j++){
+//                if(matrix[i][2].equals(matrix2[j][0])) {
+//                    break;
+//                }
+//            }
+//            if (matrix[i][2].equals(matrix[i+1][2]) && matrix[i][2].equals(matrix[i+2][2])) {
+//                String template2 = template.replace("#name", matrix2[j][1])
+//                        .replace("#code.rank1", matrix[i][4])
+//                        .replace("#code.rank2", matrix[i + 1][4])
+//                        .replace("#code.rank3", matrix[i + 2][4])
+//                        .replace("#code.commend1", matrix[i][5])
+//                        .replace("#code.commend2", matrix[i + 1][5])
+//                        .replace("#code.commend3", matrix[i + 2][5]);
+//                i += 3;
+//                continue;
+//            }
+//            else if(matrix[i][2].equals(matrix[i+2][2])) {
+//                String template2 = template.replace("#name", matrix2[j][1])
+//                        .replace("#code.rank1", matrix[i][4])
+//                        .replace("#code.rank2", matrix[i + 1][4])
+//                        .replace("#code.commend1", matrix[i][5])
+//                        .replace("#code.commend2", matrix[i + 1][5])
+//                        .replace("#code.rank3","")
+//                        .replace("#code.commend3","");
+//                i += 2;
+//            }
+//            else{
+//                String template2 = template.replace("name", matrix2[j][1])
+//                        .replace("#code.rank1", matrix[i][4])
+//                        .replace("#code.rank2", "")
+//                        .replace("#code.rank3", "")
+//                        .replace("#code.commend1", matrix[i][5])
+//                        .replace("#code.commend2", "")
+//                        .replace("#code.commend3", "");
+//                i += 1;
+//            }
+//
+//        }
+//            return null;
+//    }
 
 
 
