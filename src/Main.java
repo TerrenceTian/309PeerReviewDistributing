@@ -2,8 +2,11 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class Main {
-    final static String TA_NAME_VALUE = "";
+    final static String TA_NAME_VALUE = "Ye";
+    final static String TA_EMAIL_VALUE = "";
+    final static String TA_EMAIL_PWD = "";
     final static String EMAIL_DOMAIN = "@iastate.edu";
+    final static String SUBJECT = "demo-2 peer review";
 
     public static void main(String[] args) throws IOException {
         Distributor distributor = new Distributor();
@@ -15,8 +18,8 @@ public class Main {
         distributor.fillReview(emailContentHashMap, codingReview, teamwork);
         String template = distributor.readTemplate();
         distributor.fillDataInTemplate(emailContentHashMap, template);
-        new SendEmail(emailContentHashMap).send();
-//        distributor.fillDataInTemplate(String template, String[][] codingReview, );
+        distributor.send(emailContentHashMap);
+
     }
 
 }

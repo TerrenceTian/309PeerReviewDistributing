@@ -1,5 +1,9 @@
 import com.csvreader.CsvReader;
+import org.simplejavamail.email.Email;
+import org.simplejavamail.mailer.Mailer;
+import org.simplejavamail.mailer.config.TransportStrategy;
 
+import javax.mail.internet.MimeMessage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -44,7 +48,7 @@ public class Distributor {//将所用文件导入二维字符串数组
         StringBuilder stringBuilder = new StringBuilder();//创建一个新的字符串
         String line;
         while((line = bufferedReader.readLine()) != null){//readLine()函数可跳行
-            stringBuilder.append("\n"+line);//将每一行读取的数值加入到字符串中
+            stringBuilder.append("\n").append(line);//将每一行读取的数值加入到字符串中
         }
         return stringBuilder.toString();
 
@@ -92,6 +96,20 @@ public class Distributor {//将所用文件导入二维字符串数组
                     .replace(TEAMWORK_LABEL, teamwork.toString())
                     .replace(TA_NAME_LABEL, Main.TA_NAME_VALUE);
             emailContent.setContent(content);
+        }
+    }
+
+    public void send(HashMap<String, EmailContent> emailContentHashMap){
+        for(Map.Entry<String, EmailContent> entry : emailContentHashMap.entrySet()){
+            EmailContent emailContent = entry.getValue();
+            final Email email = new Email();
+            email.setFromAddress(Main.TA_NAME_VALUE, Main.TA_EMAIL_VALUE);
+            email.addRecipient(emailContent.getFirstName() + " " + emailContent.getLastName(), emailContent.getReceipt(), MimeMessage.RecipientType.TO);
+            email.setText(emailContent.getContent());
+            email.setSubject(Main.SUBJECT);
+//            new Mailer("smtp.gmail.com", 25, "your user", "your password", TransportStrategy.SMTP_TLS).sendMail(email);
+            new Mailer("smtp.gmail.com", 587, Main.TA_EMAIL_VALUE, Main.TA_EMAIL_PWD, TransportStrategy.SMTP_TLS).sendMail(email);
+//            new Mailer("smtp.gmail.com", 465, "your user", "your password", TransportStrategy.SMTP_SSL).sendMail(email);
         }
     }
 
