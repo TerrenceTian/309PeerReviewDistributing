@@ -2,7 +2,9 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class Main {
-    public static final String TA_NAME_VALUE = "Ye Tian";
+    final static String TA_NAME_VALUE = "";
+    final static String EMAIL_DOMAIN = "@iastate.edu";
+
     public static void main(String[] args) throws IOException {
         Distributor distributor = new Distributor();
         String[][] codingReview = distributor.readFileToMatrix(System.getProperty("user.dir") + "/demo2_coding.csv");

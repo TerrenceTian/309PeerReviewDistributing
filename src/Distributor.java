@@ -12,7 +12,6 @@ import java.util.Map;
 
 
 public class Distributor {//将所用文件导入二维字符串数组
-    private final static String EMAIL_DOMAIN = "@iastate.edu";
     private final static String STUDENT_NAME_LABEL = "#studentName#";
     private final static String CODE_REVIEW_LABEL = "#codeReview#";
     private final static String TEAMWORK_LABEL = "#teamwork#";
@@ -78,7 +77,7 @@ public class Distributor {//将所用文件导入二维字符串数组
             String content = template;
             EmailContent emailContent = entry.getValue();
             String netId = entry.getKey();
-            emailContent.setReceipt(netId + EMAIL_DOMAIN);
+            emailContent.setReceipt(netId + Main.EMAIL_DOMAIN);
 
             StringBuilder codeReview = new StringBuilder();
             for (String[] review : emailContent.getCoding()) {
