@@ -1,17 +1,31 @@
+import com.csvreader.CsvReader;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+
 
 public class Distributor {//将所用文件导入二维字符串数组
+    private final static String EMAIL_DOMAIN = "@iastate.edu";
+    private final static String STUDENT_NAME_LABEL = "#studentName#";
+    private final static String CODE_REVIEW_LABEL = "#codeReview#";
+    private final static String TEAMWORK_LABEL = "#teamwork#";
+    private final static String TA_NAME_LABEL = "#TAName#";
+
+
+
     public String[][] readFileToMatrix(String filePath) throws IOException {
         List<String[]> list = new ArrayList<>();//创建一个新数组
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath));//读入文件
+        CsvReader csvReader = new CsvReader(filePath, ',', Charset.forName("UTF-8"));//读入文件
         String line;
-        while((line = bufferedReader.readLine()) != null){//读入表格中数据
-            String[] elements = line.split(",");//定义一个新的字符串数组，将字符串分割成字符串数组
+        while(csvReader.readRecord()){//读入表格中数据
+            String[] elements = csvReader.getValues();//定义一个新的字符串数组，将字符串分割成字符串数组
             list.add(elements);//将分割的字符串数组加入list中
         }
         int width = list.get(0).length;//取list中第一个元素的长度
@@ -59,9 +73,28 @@ public class Distributor {//将所用文件导入二维字符串数组
         }
 
     }
-//    public String fillDataInTemplate(){
-//
-//    }
+    public void fillDataInTemplate(HashMap<String, EmailContent> emailContentHashMap, String template){
+        for(Map.Entry<String, EmailContent> entry : emailContentHashMap.entrySet()) {
+            String content = template;
+            EmailContent emailContent = entry.getValue();
+            String netId = entry.getKey();
+            emailContent.setReceipt(netId + EMAIL_DOMAIN);
+
+            StringBuilder codeReview = new StringBuilder();
+            for (String[] review : emailContent.getCoding()) {
+                codeReview.append(review[0]).append(",").append(review[1]).append("\n");
+            }
+            StringBuilder teamwork = new StringBuilder();
+            for (String[] team : emailContent.getTeamwork()) {
+                teamwork.append(team[0]).append(",").append(team[1]).append("\n");
+            }
+            content = content.replace(STUDENT_NAME_LABEL, emailContent.getFirstName())
+                    .replace(CODE_REVIEW_LABEL, codeReview.toString())
+                    .replace(TEAMWORK_LABEL, teamwork.toString())
+                    .replace(TA_NAME_LABEL, Main.TA_NAME_VALUE);
+            emailContent.setContent(content);
+        }
+    }
 
 //    public String fillDataInTemplate(String template, String[][] matrix, String[][] matrix2){
 //        int i = 0, j;

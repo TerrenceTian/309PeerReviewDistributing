@@ -1,15 +1,11 @@
-Hi #name,
+Hi #studentName#,
 
 Your review is;
 code:
-#code.rank1, #code.commend1
-#code.rank2, #code.commend2
-#code.rank3, #code.commend3
+#codeReview#
 
 team:
-#team.rank1, #team.commend1
-#team.rank2, #team.commend2
-#team.rank3, #team.commend3
+#teamwork#
 
 Best,
-#TA_name
+#TAName#

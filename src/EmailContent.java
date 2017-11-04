@@ -6,10 +6,29 @@ public class EmailContent {
     private String lastName;
     private List<String[]> coding;
     private List<String[]> teamwork;
+    private String content;
+    private String receipt;
+
 
     public EmailContent(){
         this.coding = new ArrayList<>();
         this.teamwork = new ArrayList<>();
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(String receipt) {
+        this.receipt = receipt;
     }
 
     public String getFirstName() {
