@@ -53,13 +53,14 @@ public class Distributor {//将所用文件导入二维字符串数组
         return stringBuilder.toString();
 
     }
-
-    public void fillNetID(HashMap<String, EmailContent> emailContentHashMap, String[][] names) {
-        for(int i = 0; i < names.length; i++){
-            EmailContent emailContent = new EmailContent();
-            emailContent.setFirstName(names[i][2]);
-            emailContent.setLastName(names[i][3]);
-            emailContentHashMap.put(names[i][4], emailContent);
+    public void fillNetID(HashMap<String, EmailContent> emailContentHashMap, String[][] names, String TEAM_PREFIX) {
+        for (String[] name : names) {
+            if (name[0].contains(TEAM_PREFIX)) {
+                EmailContent emailContent = new EmailContent();
+                emailContent.setFirstName(name[2]);
+                emailContent.setLastName(name[3]);
+                emailContentHashMap.put(name[4], emailContent);
+            }
         }
     }
 
@@ -67,12 +68,14 @@ public class Distributor {//将所用文件导入二维字符串数组
         for(int i = 1; i < codingReview.length; i++){
             String netId = codingReview[i][2];
             EmailContent emailContent = emailContentHashMap.get(netId);
-            emailContent.getCoding().add(new String[]{codingReview[i][4], codingReview[i][5].replace("Comment only needed if 1,2 or 5", "")});
+            if(emailContent != null)
+                emailContent.getCoding().add(new String[]{codingReview[i][4], codingReview[i][5].replace("Comment only needed if 1,2 or 5", "")});
         }
         for(int i = 1; i < teamwork.length; i++){
             String netId = teamwork[i][2];
             EmailContent emailContent = emailContentHashMap.get(netId);
-            emailContent.getTeamwork().add(new String[]{teamwork[i][4], teamwork[i][5].replace("Comment only needed if 1,2 or 5", "")});
+            if(emailContent != null)
+                emailContent.getTeamwork().add(new String[]{teamwork[i][4], teamwork[i][5].replace("Comment only needed if 1,2 or 5", "")});
         }
 
     }
