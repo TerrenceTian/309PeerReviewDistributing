@@ -88,11 +88,11 @@ public class Distributor {//将所用文件导入二维字符串数组
 
             StringBuilder codeReview = new StringBuilder();
             for (String[] review : emailContent.getCoding()) {
-                codeReview.append(review[0]).append(",").append(review[1]).append("\n");
+                codeReview.append(review[0]).append(", ").append(review[1]).append("\n");
             }
             StringBuilder teamwork = new StringBuilder();
             for (String[] team : emailContent.getTeamwork()) {
-                teamwork.append(team[0]).append(",").append(team[1]).append("\n");
+                teamwork.append(team[0]).append(", ").append(team[1]).append("\n");
             }
             content = content.replace(STUDENT_NAME_LABEL, emailContent.getFirstName())
                     .replace(CODE_REVIEW_LABEL, codeReview.toString())
@@ -113,6 +113,7 @@ public class Distributor {//将所用文件导入二维字符串数组
 //            new Mailer("smtp.gmail.com", 25, "your user", "your password", TransportStrategy.SMTP_TLS).sendMail(email);
             new Mailer("smtp.gmail.com", 587, Main.TA_EMAIL_VALUE, Main.TA_EMAIL_PWD, TransportStrategy.SMTP_TLS).sendMail(email);
 //            new Mailer("smtp.gmail.com", 465, "your user", "your password", TransportStrategy.SMTP_SSL).sendMail(email);
+            System.out.println("sent to " + emailContent.getFirstName() + " " + emailContent.getLastName());
         }
     }
 
