@@ -117,49 +117,6 @@ public class Distributor {//将所用文件导入二维字符串数组
         }
     }
 
-//    public String fillDataInTemplate(String template, String[][] matrix, String[][] matrix2){
-//        int i = 0, j;
-//        while(i < matrix.length){
-//            for(j = 0; j < matrix2.length; j++){
-//                if(matrix[i][2].equals(matrix2[j][0])) {
-//                    break;
-//                }
-//            }
-//            if (matrix[i][2].equals(matrix[i+1][2]) && matrix[i][2].equals(matrix[i+2][2])) {
-//                String template2 = template.replace("#name", matrix2[j][1])
-//                        .replace("#code.rank1", matrix[i][4])
-//                        .replace("#code.rank2", matrix[i + 1][4])
-//                        .replace("#code.rank3", matrix[i + 2][4])
-//                        .replace("#code.commend1", matrix[i][5])
-//                        .replace("#code.commend2", matrix[i + 1][5])
-//                        .replace("#code.commend3", matrix[i + 2][5]);
-//                i += 3;
-//                continue;
-//            }
-//            else if(matrix[i][2].equals(matrix[i+2][2])) {
-//                String template2 = template.replace("#name", matrix2[j][1])
-//                        .replace("#code.rank1", matrix[i][4])
-//                        .replace("#code.rank2", matrix[i + 1][4])
-//                        .replace("#code.commend1", matrix[i][5])
-//                        .replace("#code.commend2", matrix[i + 1][5])
-//                        .replace("#code.rank3","")
-//                        .replace("#code.commend3","");
-//                i += 2;
-//            }
-//            else{
-//                String template2 = template.replace("name", matrix2[j][1])
-//                        .replace("#code.rank1", matrix[i][4])
-//                        .replace("#code.rank2", "")
-//                        .replace("#code.rank3", "")
-//                        .replace("#code.commend1", matrix[i][5])
-//                        .replace("#code.commend2", "")
-//                        .replace("#code.commend3", "");
-//                i += 1;
-//            }
-//
-//        }
-//            return null;
-//    }
 
 
 
